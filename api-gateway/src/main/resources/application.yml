@@ -1,0 +1,33 @@
+server:
+  port: 8765
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka
+  sleuth:
+    sampler:
+      probability: 1.0
+spring:
+  application:
+    name: api-gateway
+  cloud:
+   gateway:
+     discovery:
+       locator:
+         enable: true
+         lower-case-service-id: true
+     routes:
+     - id: pedido-service
+       uri: lb://pedido-service
+       predicates:
+       - Path=/pedido-service/**
+     - id: cadastro-service
+       uri: lb://cadastro-service
+       predicates:
+       - Path=/cadastro-service/**
+     - id: openapi
+       uri: lb://api-gateway
+       predicates:
+       - Path=/v3/api-docs/**
+       filters:
+       - RewritePath=/v3/api-docs/(<path>.*), /$(\{path/v3/api-docs

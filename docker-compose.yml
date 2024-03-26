@@ -1,0 +1,12 @@
+version: '3.4'
+
+services:
+  naming-server:
+    image: gilson/naming-server:0.0.1-SNAPSHOT
+    ports:
+      - 8761:8761
+    networks:
+      - gilson-network
+networks:
+  gilson-network:
+    driver: bridge
